@@ -50,31 +50,31 @@ main:
 	
 	beq $s1, 0, exit
 	
-	#Telling the user what the choices are, should they accept to play the game
-	la $a0, askingQuestion
-	li $v0, 4
-	syscall
+		#Telling the user what the choices are, should they accept to play the game
+		la $a0, askingQuestion
+		li $v0, 4
+		syscall
 	
-	la $a0, rock
-	li $v0, 4
-	syscall
+		la $a0, rock
+		li $v0, 4
+		syscall
 	
-	la $a0, paper
-	li $v0, 4
-	syscall
+		la $a0, paper
+		li $v0, 4
+		syscall
 	
-	la $a0, scissor
-	li $v0, 4
-	syscall
+		la $a0, scissor
+		li $v0, 4
+		syscall
 	
-	la $a0, userChoice
-	li $v0, 4
-	syscall
+		la $a0, userChoice
+		li $v0, 4
+		syscall
 	
-	#User input choices
-	li $v0, 5
- 	syscall
- 	move $t0, $v0
+		#User input choices
+		li $v0, 5
+ 		syscall
+ 		move $t0, $v0
 		
 	beq $s1, 1, exit #Temporary
 	
