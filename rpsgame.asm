@@ -44,7 +44,13 @@ main:
 	li $v0, 4
 	syscall
 	
-	#Telling the user what the choices are
+	li $v0, 5
+	syscall
+	move $s1, $v0
+	
+	beq $s1, 0, exit
+	
+	#Telling the user what the choices are, should they accept to play the game
 	la $a0, askingQuestion
 	li $v0, 4
 	syscall
@@ -69,12 +75,6 @@ main:
 	li $v0, 5
  	syscall
  	move $t0, $v0
-	
-	li $v0, 5
-	syscall
-	move $s1, $v0
-	
-	beq $s1, 0, exit
 		
 	beq $s1, 1, exit #Temporary
 	
