@@ -1,5 +1,6 @@
 #Placeholder
 #Placeholder
+#Placeholder
 
 .data
 msg1: .asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game."
