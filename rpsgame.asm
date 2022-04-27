@@ -6,7 +6,7 @@
 .data
 msg1: .asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game."
 msg2: .asciiz "\nThere are two players. You and the computer/other player."
-msg3: .asciiz "\nYou input a choice between Rock, Paper, and scissors."
+msg3: .asciiz "\nInput a choice between Rock, Paper, and scissors."
 msg4: .asciiz "\nRock beats paper, Paper beats rock, and Scissors beat Paper"
 msg5: .asciiz "\nIf you win 3 times, then you win the game overall."
 msg6: .asciiz "\nWould you like to play the game?(0 for yes and 1 for no)"
