@@ -12,6 +12,12 @@ msg5: .asciiz "\nIf you win 3 times, then you win the game overall."
 msg6: .asciiz "\nWould you like to play the game?(0 for yes and 1 for no)"
 msg7: .asciiz "\nEnding the game and exiting the program."
 
+askingQuestion: .asciiz "Please enter the number of choice: "
+rock: .asciiz " 1. Rock"
+paper: .asciiz " 2. Paper"
+scissor: .asciiz "3. Scissor"
+userChoice: .asciiz "What is your choice? "
+
 .text
 main:
 	la $a0, msg1
@@ -37,6 +43,32 @@ main:
 	la $a0, msg6
 	li $v0, 4
 	syscall
+	
+	#Telling the user what the choices are
+	la $a0, askingQuestion
+	li $v0, 4
+	syscall
+	
+	la $a0, rock
+	li $v0, 4
+	syscall
+	
+	la $a0, paper
+	li $v0, 4
+	syscall
+	
+	la $a0, scissor
+	li $v0, 4
+	syscall
+	
+	la $a0, userChoice
+	li $v0, 4
+	syscall
+	
+	#User input choices
+	li $v0, 5
+ 	syscall
+ 	move $t0, $v0
 	
 	li $v0, 5
 	syscall
