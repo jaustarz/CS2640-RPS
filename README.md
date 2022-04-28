@@ -2,6 +2,9 @@
 This program is a basic Rock, Paper, Scissors (RPS) game. It allows a user to play RPS with a CPU or with a second player. 
 
 ## Tasks
+_to mark a task as done edit this file and put an x in the box_
+- [x] example
+
 **Jeremiah**
 - [ ] 2 Player Mode
 - [ ] Assist the others
