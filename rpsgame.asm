@@ -3,6 +3,9 @@
 #Placeholder
 #Placeholder
 
+#test comment 
+#1
+
 .data
 msg1: .asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game."
 msg2: .asciiz "\nThere are two players. You and the computer/other player."
@@ -11,6 +14,12 @@ msg4: .asciiz "\nRock beats paper, Paper beats rock, and Scissors beat Paper"
 msg5: .asciiz "\nIf you win 3 times, then you win the game overall."
 msg6: .asciiz "\nWould you like to play the game?(0 for yes and 1 for no)"
 msg7: .asciiz "\nEnding the game and exiting the program."
+
+askingQuestion: .asciiz "Please enter the number of choice: "
+rock: .asciiz " 1. Rock"
+paper: .asciiz " 2. Paper"
+scissor: .asciiz "3. Scissor"
+userChoice: .asciiz "What is your choice? "
 
 .text
 main:
@@ -43,6 +52,32 @@ main:
 	move $s1, $v0
 	
 	beq $s1, 0, exit
+	
+		#Telling the user what the choices are, should they accept to play the game
+		la $a0, askingQuestion
+		li $v0, 4
+		syscall
+	
+		la $a0, rock
+		li $v0, 4
+		syscall
+	
+		la $a0, paper
+		li $v0, 4
+		syscall
+	
+		la $a0, scissor
+		li $v0, 4
+		syscall
+	
+		la $a0, userChoice
+		li $v0, 4
+		syscall
+	
+		#User input choices
+		li $v0, 5
+ 		syscall
+ 		move $t0, $v0
 		
 	beq $s1, 1, exit #Temporary
 	
