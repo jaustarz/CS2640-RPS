@@ -3,9 +3,6 @@
 #Placeholder
 #Placeholder
 
-#test comment 
-#1
-
 .data
 msg1: .asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game."
 msg2: .asciiz "\nThere are two players. You and the computer/other player."
