@@ -80,9 +80,9 @@ game:
 	move $s0, $v0 				# user choice is in $s0
 	
 	#Computer Choice
-	li $a1, 3 				# this is to set the upper limit (in this case the limit is at 3
-	li $v0, 42 				# syscall to create the random number
-	syscall 				# returns the random number at $a0
+	li $a1, 3					# this is to set the upper limit (in this case the limit is at 3
+	li $v0, 42					# syscall to create the random number
+	syscall						# returns the random number at $a0
 	addi $s1, $a0, 1			# computer choice is in $s1
 		
 	# Compare them and return result
