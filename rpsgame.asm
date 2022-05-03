@@ -76,6 +76,11 @@ main:
  		syscall
  		move $t0, $v0
 		
+		#Computer Choice
+		li $a1, 3 #this is to set the upper limit (in this case the limit is at 3
+		li $v0, 42 #syscall to create the random number
+		syscall #returns the random number at $a0
+		
 	beq $s1, 1, exit #Temporary
 	
 	exit:
