@@ -8,6 +8,7 @@ _to mark a task as done edit this file and put an x in the box_
 **Jeremiah**
 - [ ] 2 Player Mode
 - [ ] Assist the others
+- [ ] ask user if they want to play endless mode after getting the three points it takes to win the game
 
 **Ryan**
 - [x] Take in the users input
