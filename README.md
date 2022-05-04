@@ -20,7 +20,7 @@ _to mark a task as done edit this file and put an x in the box_
 
 **Hailee**
 - [x] Tell the user their choices
-- [ ] Compare the users choice with the computers choice and output the result
+- [X] Compare the users choice with the computers choice and output the result
 
 **Jibriel**
 - [x] Tell the rules of the game
