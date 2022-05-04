@@ -18,6 +18,7 @@ _to mark a task as done edit this file and put an x in the box_
 
 **Joel**
 - [X] Ask the user if they want to play again
+- [ ] When the user says if they want to play again or not the choices should be 1 for yes and 0 for no
 - [ ] Keeping session score
 
 **Hailee**
