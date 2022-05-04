@@ -22,11 +22,14 @@ userChoice: .asciiz "What is your choice? "
 
 .text
 main:
+
+	#Displaying the welcome message
 	la $a0, welcome
 	li $v0, 4
 	syscall
 	
-	la $a0, twoPlayers
+	#Message 2-5 displays the rules of the game
+  la $a0, twoPlayers
 	li $v0, 4
 	syscall
 	
@@ -42,7 +45,9 @@ main:
 	li $v0, 4
 	syscall
 	
+	#Asking the player if they want to play the game or not
 	la $a0, wantToPlay
+  
 	li $v0, 4
 	syscall
 	
@@ -84,11 +89,12 @@ game:
 	li $v0, 42					# syscall to create the random number
 	syscall						# returns the random number at $a0
 	addi $s1, $a0, 1			# computer choice is in $s1
-		
+
 	# Compare them and return result
 	# Ask to play again
 
 exit:
+	#Ending the program, displaying an exit message
 	la $a0, ending
 	li $v0, 4
 	syscall
