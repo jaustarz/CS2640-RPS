@@ -15,6 +15,7 @@ _to mark a task as done edit this file and put an x in the box_
 **Ryan**
 - [x] Take in the users input
 - [x] Select a random choice for the computer
+- [ ] add an introduction that includes names, class, semester, and that it was a project
 
 **Joel**
 - [X] Ask the user if they want to play again
