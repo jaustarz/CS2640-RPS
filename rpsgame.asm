@@ -6,19 +6,19 @@
 
 
 .data
-welcome: .asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game."
-twoPlayers: .asciiz "\nThere are two players. You and the computer/other player."
-select: .asciiz "\nSelect a choice between Rock, Paper, and scissors."
-outcomes: .asciiz "\nRock beats paper, Paper beats rock, and Scissors beat Paper"
-winConditions: .asciiz "\nIf you win 3 times, then you win the game overall."
-wantToPlay: .asciiz "\nWould you like to play the game?(0 for yes and 1 for no)"
-ending: .asciiz "\nEnding the game and exiting the program."
+welcome: 	.asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game."
+twoPlayers: 	.asciiz "\nThere are two players. You and the computer/other player."
+select: 	.asciiz "\nSelect a choice between Rock, Paper, and scissors."
+outcomes: 	.asciiz "\nRock beats paper, Paper beats rock, and Scissors beat Paper"
+winConditions: 	.asciiz "\nIf you win 3 times, then you win the game overall."
+wantToPlay: 	.asciiz "\nWould you like to play the game?(0 for yes and 1 for no)"
+ending: 	.asciiz "\nEnding the game and exiting the program."
 
-enterChoice: .asciiz "Please enter the number of choice: "
-rock: .asciiz " 1. Rock"
-paper: .asciiz " 2. Paper"
-scissor: .asciiz "3. Scissor"
-userChoice: .asciiz "What is your choice? "
+enterChoice: 	.asciiz "Please enter the number of choice: "
+rock: 		.asciiz " 1. Rock"
+paper: 		.asciiz " 2. Paper"
+scissor: 	.asciiz "3. Scissor"
+userChoice: 	.asciiz "What is your choice? "
 
 .text
 main:
@@ -29,7 +29,7 @@ main:
 	syscall
 	
 	#Message 2-5 displays the rules of the game
-  la $a0, twoPlayers
+	la $a0, twoPlayers
 	li $v0, 4
 	syscall
 	
@@ -85,9 +85,9 @@ game:
 	move $s0, $v0 				# user choice is in $s0
 	
 	#Computer Choice
-	li $a1, 3					# this is to set the upper limit (in this case the limit is at 3
-	li $v0, 42					# syscall to create the random number
-	syscall						# returns the random number at $a0
+	li $a1, 3				# this is to set the upper limit (in this case the limit is at 3
+	li $v0, 42				# syscall to create the random number
+	syscall					# returns the random number at $a0
 	addi $s1, $a0, 1			# computer choice is in $s1
 
 	# Compare them and return result
