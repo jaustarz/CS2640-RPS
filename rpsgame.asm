@@ -20,6 +20,10 @@ paper: 		.asciiz "\n2. Paper"
 scissor: 	.asciiz "\n3. Scissors"
 userChoice: 	.asciiz "\nWhat is your choice? "
 playAgain:      .asciiz "\nDo you want to play again? (Enter 0 for yes and 1 for no)"
+computerChoice: .asciiz "\nThe computer chose: "
+youWin: 	.asciiz "\nYou won!"
+youLose: 	.asciiz "\nYou lost."
+youTied:	 .asciiz "\nYou tied with the CPU."
 
 .text
 main:
@@ -90,9 +94,66 @@ game:
 	li $v0, 42				# syscall to create the random number
 	syscall					# returns the random number at $a0
 	addi $s1, $a0, 1			# computer choice is in $s1
-
-	# Compare them and return result
+				
+	# Displays computer's choice 
+	la $a0, computerChoice	
+	li $v0, 4
+	syscall
+	la $a0, ($s1)
+	li $v0, 1
+	syscall
 	
+	# Compare user and computer's choice
+	beq $s0, $s1, tie
+	beq $s0, 1, choseRock
+	beq $s0, 2, chosePaper
+	beq $s0, 3, choseScissors
+	
+	# User chose same option as CPU
+	tie:
+		# Displays tie message
+		la $a0, youTied	
+		li $v0, 4
+		syscall
+		
+		j endRound
+					
+	# User chose rock
+	choseRock:		
+		# Check if User beat CPU
+		beq $s1, 3, userWins
+		j userLoses
+		
+	# User chose paper
+	chosePaper:
+		# Check if User beat CPU
+		beq $s1, 1, userWins
+		j userLoses
+		
+	# User chose scissors
+	choseScissors:
+		# Check if User beat CPU
+		beq $s1, 2, userWins
+		j userLoses
+
+	userWins:
+	# Displays winning message
+	la $a0, youWin				
+	li $v0, 4
+	syscall
+	# Increase user's score
+	j endRound
+	
+	userLoses:
+	# Displays losing message
+	la $a0, youLose		
+	li $v0, 4
+	syscall
+	# Increase CPU's score
+	j endRound
+	
+endRound:
+	# Check score to see if game needs to end
 	# Ask to play again
 	la $a0, playAgain
 	li $v0, 4
