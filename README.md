@@ -6,10 +6,10 @@ _to mark a task as done edit this file and put an x in the box_
 - [x] example
 
 **Jeremiah**
-- [ ] 2 Player Mode
-- [ ] Assist the others
+- [x] 2 Player Mode
+- [x] Assist the others
 - [ ] ask user if they want to play endless mode after getting the three points it takes to win the game
-- [ ] print "You chose USERS_CHOICE and the computer chose COMPUTERS_CHOICE so...", after playing the game I feel it is best that we spell it out for the player
+- [x] print "You chose USERS_CHOICE and the computer chose COMPUTERS_CHOICE so...", after playing the game I feel it is best that we spell it out for the player
 - [ ] make the dialog more intense
 
 **Ryan**
@@ -19,7 +19,6 @@ _to mark a task as done edit this file and put an x in the box_
 
 **Joel**
 - [X] Ask the user if they want to play again
-- [ ] When the user says if they want to play again or not the choices should be 1 for yes and 0 for no
 - [ ] Keeping session score
 
 **Hailee**
