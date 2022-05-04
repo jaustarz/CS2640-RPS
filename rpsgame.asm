@@ -18,12 +18,13 @@ enterChoice: 	.asciiz "\nPlease enter the number of your choice."
 rock: 		.asciiz "\n1. Rock"
 paper: 		.asciiz "\n2. Paper"
 scissor: 	.asciiz "\n3. Scissors"
-userChoice: 	.asciiz "\nWhat is your choice? "
+askUserChoice: 	.asciiz "\nWhat is your choice? "
 playAgain:      .asciiz "\nDo you want to play again? (0 for yes and 1 for no) "
-computerChoice: .asciiz "\nThe computer chose: "
-youWin: 	.asciiz "\nYou won!"
-youLose: 	.asciiz "\nYou lost."
-youTied:	.asciiz "\nYou tied with the CPU."
+userChoice:	.asciiz "\nYou chose: "
+computerChoice: .asciiz " and the computer chose: "
+youWin: 	.asciiz " so...\nYou won! :)"
+youLose: 	.asciiz " so...\nYou lost. :("
+youTied:	.asciiz " so...\nYou tied with the CPU. :|"
 
 .text
 main:
@@ -80,7 +81,7 @@ game:
 	li $v0, 4
 	syscall
 
-	la $a0, userChoice
+	la $a0, askUserChoice
 	li $v0, 4
 	syscall
 
@@ -94,7 +95,15 @@ game:
 	li $v0, 42				# syscall to create the random number
 	syscall					# returns the random number at $a0
 	addi $s1, $a0, 1			# computer choice is in $s1
-				
+
+	# Displays users choice
+	la $a0, userChoice
+	li $v0, 4
+	syscall
+	la $a0, ($s0)
+	li $v0, 1
+	syscall
+
 	# Displays computer's choice 
 	la $a0, computerChoice	
 	li $v0, 4
