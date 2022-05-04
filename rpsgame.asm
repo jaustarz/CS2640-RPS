@@ -19,6 +19,7 @@ rock: 		.asciiz "\n1. Rock"
 paper: 		.asciiz "\n2. Paper"
 scissor: 	.asciiz "\n3. Scissors"
 userChoice: 	.asciiz "\nWhat is your choice? "
+playAgain:      .asciiz "\nDo you want to play again? (Enter 0 for yes and 1 for no)"
 
 .text
 main:
@@ -91,7 +92,22 @@ game:
 	addi $s1, $a0, 1			# computer choice is in $s1
 
 	# Compare them and return result
+	
 	# Ask to play again
+	la $a0, playAgain
+	li $v0, 4
+	syscall
+	
+	#saving user choice in register $s1
+	li $v0, 5                              
+	syscall
+	move $s1, $v0 
+	
+	#if the value in register $s1 equals 0 then the program will go to label game but if the value is 1 then the program will end
+	beq $s1, $zero, game			#
+	
+	
+	
 
 exit:
 	#Ending the program, displaying an exit message
