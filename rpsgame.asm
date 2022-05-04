@@ -16,12 +16,12 @@ playerCount:	.asciiz "\nAre you playing with a friend or with the computer? (f o
 ending: 	.asciiz "\nEnding the game and exiting the program."
 
 enterChoice: 	.asciiz "\nPlease enter the number of your choice."
-rock: 		.asciiz "\n1. Rock"
-paper: 		.asciiz "\n2. Paper"
-scissor: 	.asciiz "\n3. Scissors"
+rock: 		.asciiz "\nRock (r)"
+paper: 		.asciiz "\nPaper (p)"
+scissor: 	.asciiz "\nScissors (s)"
 askUserChoice: 	.asciiz "\nWhat is your choice? "
 askUser2Choice: .asciiz "\nPlayer 2: What is your choice? "
-playAgain:      .asciiz "\nDo you want to play again? (0 for yes and 1 for no) "
+playAgain:      .asciiz "\n\nDo you want to play again? (y or n) "
 userChoice:	.asciiz "\nYou chose: "
 user2Choice:	.asciiz " and player 2 chose: "
 computerChoice: .asciiz " and the computer chose: "
@@ -76,6 +76,7 @@ main:
 	
 	# PVP false
 		add $s7, $zero, $zero
+		j game
 
 	PVPTrue:
 		addi $s7, $zero, 1		# PVP or CPU is in $s7
@@ -103,7 +104,7 @@ game:
 	syscall
 
 	# User input choice
-	li $v0, 5
+	li $v0, 12
 	syscall
 	move $s0, $v0 				# user choice is in $s0
 
@@ -122,11 +123,28 @@ game:
 	j choices
 
 	CPUChoice:
-		# Computer Choice
-		li $a1, 3				# this is to set the upper limit (in this case the limit is at 3
-		li $v0, 42				# syscall to create the random number
-		syscall					# returns the random number at $a0
-		addi $s1, $a0, 1			# computer choice is in $s1
+	# Computer Choice
+	li $a1, 3				# this is to set the upper limit (in this case the limit is at 3
+	li $v0, 42				# syscall to create the random number
+	syscall					# returns the random number at $a0
+	addi $s1, $a0, 1			# numerical computer choice is in $s1
+
+	# Convert computer choice to character
+	beq $s1, 'r', computerChoseRock
+	beq $s1, 'p', computerChosePaper
+	beq $s1, 's', computerChoseScissors
+
+	computerChoseRock:
+	li $s1, 'r'
+	j choices
+
+	computerChosePaper:
+	li $s1, 'p'
+	j choices
+
+	computerChoseScissors:
+	li $s1, 's'
+	j choices
 
 choices:
 
@@ -135,7 +153,7 @@ choices:
 	li $v0, 4
 	syscall
 	la $a0, ($s0)
-	li $v0, 1
+	li $v0, 11
 	syscall
 
 	# Check if it is PVP or CPU
@@ -145,7 +163,7 @@ choices:
 	li $v0, 4
 	syscall
 	la $a0, ($s1)
-	li $v0, 1
+	li $v0, 11
 	syscall
 
 	j compare
@@ -156,16 +174,16 @@ choices:
 	li $v0, 4
 	syscall
 	la $a0, ($s1)
-	li $v0, 1
+	li $v0, 11
 	syscall
 	
 compare:
 
 	# Compare user and computer's/second player's choice
 	beq $s0, $s1, tie
-	beq $s0, 1, choseRock
-	beq $s0, 2, chosePaper
-	beq $s0, 3, choseScissors
+	beq $s0, 'r', choseRock
+	beq $s0, 'p', chosePaper
+	beq $s0, 's', choseScissors
 	
 	# User chose same option as CPU/player
 	tie:
@@ -179,19 +197,19 @@ compare:
 	# User chose rock
 	choseRock:		
 		# Check if User beat CPU/player
-		beq $s1, 3, userWins
+		beq $s1, 's', userWins
 		j userLoses
 		
 	# User chose paper
 	chosePaper:
 		# Check if User beat CPU/player
-		beq $s1, 1, userWins
+		beq $s1, 'r', userWins
 		j userLoses
 		
 	# User chose scissors
 	choseScissors:
 		# Check if User beat CPU/player
-		beq $s1, 2, userWins
+		beq $s1, 'p', userWins
 		j userLoses
 
 	userWins:
@@ -218,11 +236,11 @@ endRound:
 	syscall
 	
 	# get user choice
-	li $v0, 5                              
+	li $v0, 12                              
 	syscall
 	
-	# if the value in register $v0 equals 0 then the program will go to label game but if the value is 1 then the program will end
-	beq $v0, $zero, game
+	# if the value in register $v0 equals 'y' then the program will go to label game but if the value is 'n' then the program will end
+	beq $v0, 'y', game
 
 exit:
 	# Ending the program, displaying an exit message
