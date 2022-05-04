@@ -8,22 +8,23 @@ _to mark a task as done edit this file and put an x in the box_
 **Jeremiah**
 - [ ] 2 Player Mode
 - [ ] Assist the others
+- [ ] ask user if they want to play endless mode after getting the three points it takes to win the game
 
 **Ryan**
-- [ ] Take in the users input
-- [ ] Select a random choice for the computer
+- [x] Take in the users input
+- [x] Select a random choice for the computer
 
 **Joel**
 - [ ] Ask the user if they want to play again
 - [ ] Keeping session score
 
 **Hailee**
-- [ ] Tell the user their choices
+- [x] Tell the user their choices
 - [ ] Compare the users choice with the computers choice and output the result
 
 **Jibriel**
-- [ ] Tell the rules of the game
-- [ ] Ask the user to play in the beginning
+- [x] Tell the rules of the game
+- [x] Ask the user to play in the beginning
 
 ## Time Line
 - April 25th to 30th - Rules and Interface
