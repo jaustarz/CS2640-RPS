@@ -19,11 +19,11 @@ rock: 		.asciiz "\n1. Rock"
 paper: 		.asciiz "\n2. Paper"
 scissor: 	.asciiz "\n3. Scissors"
 userChoice: 	.asciiz "\nWhat is your choice? "
-playAgain:      .asciiz "\nDo you want to play again? (Enter 0 for yes and 1 for no)"
+playAgain:      .asciiz "\nDo you want to play again? (0 for yes and 1 for no) "
 computerChoice: .asciiz "\nThe computer chose: "
 youWin: 	.asciiz "\nYou won!"
 youLose: 	.asciiz "\nYou lost."
-youTied:	 .asciiz "\nYou tied with the CPU."
+youTied:	.asciiz "\nYou tied with the CPU."
 
 .text
 main:
@@ -159,19 +159,15 @@ endRound:
 	li $v0, 4
 	syscall
 	
-	#saving user choice in register $s1
+	# get user choice
 	li $v0, 5                              
 	syscall
-	move $s1, $v0 
 	
-	#if the value in register $s1 equals 0 then the program will go to label game but if the value is 1 then the program will end
-	beq $s1, $zero, game			#
-	
-	
-	
+	# if the value in register $v0 equals 0 then the program will go to label game but if the value is 1 then the program will end
+	beq $v0, $zero, game
 
 exit:
-	#Ending the program, displaying an exit message
+	# Ending the program, displaying an exit message
 	la $a0, ending
 	li $v0, 4
 	syscall
