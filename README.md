@@ -15,7 +15,7 @@ _to mark a task as done edit this file and put an x in the box_
 - [x] Select a random choice for the computer
 
 **Joel**
-- [ ] Ask the user if they want to play again
+- [X] Ask the user if they want to play again
 - [ ] Keeping session score
 
 **Hailee**
