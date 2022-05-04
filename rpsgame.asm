@@ -8,17 +8,17 @@
 .data
 welcome: 	.asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game."
 twoPlayers: 	.asciiz "\nThere are two players. You and the computer/other player."
-select: 	.asciiz "\nSelect a choice between Rock, Paper, and scissors."
-outcomes: 	.asciiz "\nRock beats paper, Paper beats rock, and Scissors beat Paper"
-winConditions: 	.asciiz "\nIf you win 3 times, then you win the game overall."
-wantToPlay: 	.asciiz "\nWould you like to play the game?(0 for yes and 1 for no)"
+select: 	.asciiz "\nSelect a choice between Rock, Paper, or Scissors."
+outcomes: 	.asciiz "\nRock beats Paper, Paper beats Rock, and Scissors beat Paper"
+winConditions: 	.asciiz "\nIf you win 3 times, then you win the game overall.\n"
+wantToPlay: 	.asciiz "\nWould you like to play the game? (0 for yes and 1 for no) "
 ending: 	.asciiz "\nEnding the game and exiting the program."
 
-enterChoice: 	.asciiz "Please enter the number of choice: "
-rock: 		.asciiz " 1. Rock"
-paper: 		.asciiz " 2. Paper"
-scissor: 	.asciiz "3. Scissor"
-userChoice: 	.asciiz "What is your choice? "
+enterChoice: 	.asciiz "\nPlease enter the number of your choice."
+rock: 		.asciiz "\n1. Rock"
+paper: 		.asciiz "\n2. Paper"
+scissor: 	.asciiz "\n3. Scissors"
+userChoice: 	.asciiz "\nWhat is your choice? "
 
 .text
 main:
