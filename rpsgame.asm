@@ -7,29 +7,38 @@
 
 .data
 welcome: 	.asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game.\n"
+
 twoPlayers: 	.asciiz "\nThere are two players. You and the computer/other player."
 select: 	.asciiz "\nSelect a choice between Rock, Paper, or Scissors.\n"
+
 outcomes: 	.asciiz "\nRock beats Paper, Paper beats Rock, and Scissors beat Paper"
 winConditions: 	.asciiz "\nIf you win 3 times, then you win the game overall.\n"
-wantToPlay: 	.asciiz "\nWould you like to play the game? (y or n) "
-playerCount:	.asciiz "\nAre you playing with a friend or with the computer? (f or c) "
-ending: 	.asciiz "\nEnding the game and exiting the program."
 
-enterChoice: 	.asciiz "\nPlease enter the number of your choice."
+wantToPlay: 	.asciiz "\nWould you like to play the game? (y or n) "
+
+playerCount:	.asciiz "\nAre you playing with a friend or with the computer? (f or c) "
+
+enterChoice: 	.asciiz "\nPlease enter your choice."
 rock: 		.asciiz "\nRock (r)"
 paper: 		.asciiz "\nPaper (p)"
 scissor: 	.asciiz "\nScissors (s)"
-askUserChoice: 	.asciiz "\nWhat is your choice? "
+askUserChoice: 	.asciiz "\nPlayer 1: What is your choice? "
 askUser2Choice: .asciiz "\nPlayer 2: What is your choice? "
+
 playAgain:      .asciiz "\n\nDo you want to play again? (y or n) "
-userChoice:	.asciiz "\nYou chose: "
-user2Choice:	.asciiz " and player 2 chose: "
+
+userChoice:	.asciiz "\nPlayer 1 chose: "
+user2Choice:	.asciiz " and Player 2 chose: "
 computerChoice: .asciiz " and the computer chose: "
+
 youWin: 	.asciiz " so...\nYou won! :)"
 youLose: 	.asciiz " so...\nYou lost. :("
 youTied:	.asciiz " so...\nYou tied with the CPU. :|"
+player1Won:	.asciiz " so...\nPlayer 1 won! :)"
+player2Won:	.asciiz " so...\nPlayer 2 won! :)"
+playersTied:	.asciiz " so...\nYou both tied. :|"
 
-here:		.asciiz "\nhere\n"
+ending: 	.asciiz "\nEnding the game and exiting the program."
 
 .text
 main:
@@ -116,7 +125,7 @@ game:
 	syscall
 
 	# User input choice
-	li $v0, 5
+	li $v0, 12
 	syscall
 	move $s1, $v0 				# second user choice is in $s1
 
@@ -184,50 +193,64 @@ compare:
 	beq $s0, 'r', choseRock
 	beq $s0, 'p', chosePaper
 	beq $s0, 's', choseScissors
-	
-	# User chose same option as CPU/player
-	tie:
-		# Displays tie message
-		la $a0, youTied	
-		li $v0, 4
-		syscall
-		
-		j endRound
 					
-	# User chose rock
+	# Player 1 chose rock
 	choseRock:		
 		# Check if User beat CPU/player
-		beq $s1, 's', userWins
-		j userLoses
+		beq $s1, 's', player1Wins
+		j player1Loses
 		
-	# User chose paper
+	# Player 1 chose paper
 	chosePaper:
 		# Check if User beat CPU/player
-		beq $s1, 'r', userWins
-		j userLoses
+		beq $s1, 'r', player1Wins
+		j player1Loses
 		
-	# User chose scissors
+	# Player 1 chose scissors
 	choseScissors:
 		# Check if User beat CPU/player
-		beq $s1, 'p', userWins
-		j userLoses
+		beq $s1, 'p', player1Wins
+		j player1Loses
 
-	userWins:
-	# Displays winning message
-	la $a0, youWin				
-	li $v0, 4
-	syscall
-	# Increase user's score
-	j endRound
+	# Player 1 chose same option as CPU/player
+	tie:
+		# Displays tie message
+		beq $s7, $zero, CPUTie
+		la $a0, playersTied
+		j printResult
+
+		CPUTie:
+			la $a0, youTied	
+			j printResult
+
+	player1Wins:
+		# Increase Player 1's score
+		# Displays winning message
+		beq $s7, $zero, CPULoses
+		la $a0, player1Won
+		j printResult
+
+		CPULoses:
+			la $a0, youWin				
+			j printResult
 	
-	userLoses:
-	# Displays losing message
-	la $a0, youLose		
-	li $v0, 4
-	syscall
-	# Increase CPU's score
-	j endRound
+	player1Loses:
+		# Increase CPU's/Player 2's score
+		# Displays losing message
+		beq $s7, $zero, CPUWins
+		la $a0, player2Won
+		j printResult
+
+		CPUWins:
+			la $a0, youLose		
+			j printResult
+
+	printResult:
+		li $v0, 4
+		syscall
 	
+	j endRound
+
 endRound:
 	# Check score to see if game needs to end
 	# Ask to play again
