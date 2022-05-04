@@ -20,10 +20,12 @@ userChoice: .asciiz "What is your choice? "
 
 .text
 main:
+	#Displaying the welcome message
 	la $a0, msg1
 	li $v0, 4
 	syscall
 	
+	#Message 2-5 displays the rules of the game
 	la $a0, msg2
 	li $v0, 4
 	syscall
@@ -40,6 +42,7 @@ main:
 	li $v0, 4
 	syscall
 	
+	#Asking the player if they want to play the game or not
 	la $a0, msg6
 	li $v0, 4
 	syscall
@@ -84,6 +87,7 @@ main:
 	beq $s1, 1, exit #Temporary
 	
 	exit:
+	#Ending the program, displaying an exit message
 	la $a0, msg7
 	li $v0, 4
 	syscall
