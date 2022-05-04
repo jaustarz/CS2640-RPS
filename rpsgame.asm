@@ -6,9 +6,9 @@
 
 
 .data
-welcome: 	.asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game."
+welcome: 	.asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game.\n"
 twoPlayers: 	.asciiz "\nThere are two players. You and the computer/other player."
-select: 	.asciiz "\nSelect a choice between Rock, Paper, or Scissors."
+select: 	.asciiz "\nSelect a choice between Rock, Paper, or Scissors.\n"
 outcomes: 	.asciiz "\nRock beats Paper, Paper beats Rock, and Scissors beat Paper"
 winConditions: 	.asciiz "\nIf you win 3 times, then you win the game overall.\n"
 wantToPlay: 	.asciiz "\nWould you like to play the game? (0 for yes and 1 for no) "
