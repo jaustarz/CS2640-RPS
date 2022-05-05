@@ -6,7 +6,8 @@ _to mark a task as done edit this file and put an x in the box_
 - [x] example
 
 **Jeremiah**
-- [x] 2 Player Mode
+- [ ] 2 Player Mode
+  - [ ] make the selection for player 1 hidden
 - [x] Assist the others
 - [ ] ask user if they want to play endless mode after getting the three points it takes to win the game
 - [x] print "You chose USERS_CHOICE and the computer chose COMPUTERS_CHOICE so...", after playing the game I feel it is best that we spell it out for the player
