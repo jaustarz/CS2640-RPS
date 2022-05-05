@@ -139,9 +139,9 @@ game:
 	addi $s1, $a0, 1			# numerical computer choice is in $s1
 
 	# Convert computer choice to character
-	beq $s1, 'r', computerChoseRock
-	beq $s1, 'p', computerChosePaper
-	beq $s1, 's', computerChoseScissors
+	beq $s1, 1, computerChoseRock
+	beq $s1, 2, computerChosePaper
+	beq $s1, 3, computerChoseScissors
 
 	computerChoseRock:
 	li $s1, 'r'
