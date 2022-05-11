@@ -6,6 +6,11 @@
 
 
 .data
+
+ProjectName: 	.asciiz "Rock, Paper, and Scissor Game Project\n"
+Creators: 	.asciiz "Created by: Joel Joshy, Jeremiah Garcia, Jibriel Ustarz, Hailee Wheat, Ryan Phan\n"
+ForClass: 	.asciiz "For CS2640 of Spring 2022\n"
+
 welcome: 	.asciiz "\nWelcome to Rock Paper Scissors. Here are the rules to the game.\n"
 
 twoPlayers: 	.asciiz "\nThere are two players. You and the computer/other player."
@@ -42,6 +47,18 @@ ending: 	.asciiz "\nEnding the game and exiting the program."
 
 .text
 main:
+	#Displaying the introduction (what is this program and who made it)
+	la $a0, ProjectName
+	li $v0, 4
+	syscall
+	
+	la $a0, Creators
+	li $v0, 4
+	syscall
+	
+	la $a0, ForClass
+	li $v0, 4
+	syscall
 
 	# Displaying the welcome message
 	la $a0, welcome
