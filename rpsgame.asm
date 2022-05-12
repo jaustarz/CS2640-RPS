@@ -27,7 +27,14 @@ enterChoice: 	.asciiz "\nPlease enter your choice."
 rock: 		.asciiz "\nRock (r)"
 paper: 		.asciiz "\nPaper (p)"
 scissor: 	.asciiz "\nScissors (s)"
-askUserChoice: 	.asciiz "\nPlayer 1: What is your choice? "
+askUserChoice: 	.asciiz "\nPlayer 1: What is your choice?\n"
+# These are used to hide the first players choice
+one:		.asciiz "r\n"
+two:		.asciiz "p\nr\n"
+three:		.asciiz "s\nr\np\n"
+four:		.asciiz "p\ns\nr\ns\n"
+five:		.asciiz "r\np\ns\nr\np\n"
+#
 askUser2Choice: .asciiz "\nPlayer 2: What is your choice? "
 
 playAgain:      .asciiz "\n\nDo you want to play again? (y or n) "
@@ -129,6 +136,11 @@ game:
 	li $v0, 4
 	syscall
 
+	# Check if it is PVP or CPU
+	beq $s7, $zero, userInput
+	jal randomLetters
+
+	userInput:
 	# User input choice
 	li $v0, 12
 	syscall
@@ -136,6 +148,7 @@ game:
 
 	# Check if it is PVP or CPU
 	beq $s7, $zero, CPUChoice
+	jal randomLetters
 	
 	la $a0, askUser2Choice
 	li $v0, 4
@@ -150,7 +163,7 @@ game:
 
 	CPUChoice:
 	# Computer Choice
-	li $a1, 3				# this is to set the upper limit (in this case the limit is at 3
+	li $a1, 3				# this is to set the upper limit (in this case the limit is at 3)
 	li $v0, 42				# syscall to create the random number
 	syscall					# returns the random number at $a0
 	addi $s1, $a0, 1			# numerical computer choice is in $s1
@@ -281,6 +294,42 @@ endRound:
 	
 	# if the value in register $v0 equals 'y' then the program will go to label game but if the value is 'n' then the program will end
 	beq $v0, 'y', game
+	j exit
+
+randomLetters:
+	li $a1, 6
+	li $v0, 42
+	syscall		
+
+	beq $a0, 0, rlEnd
+	beq $a0, 1, loadOne
+	beq $a0, 2, loadTwo
+	beq $a0, 3, loadThree
+	beq $a0, 4, loadFour
+	beq $a0, 5, loadFive
+
+	loadOne:
+		la $a0, one
+		j rlPrint
+	loadTwo:
+		la $a0, two
+		j rlPrint
+	loadThree:
+		la $a0, three
+		j rlPrint
+	loadFour:
+		la $a0, four
+		j rlPrint
+	loadFive:
+		la $a0, five
+		j rlPrint
+
+	rlPrint:
+		li $v0, 4
+		syscall
+
+	rlEnd:
+		jr $ra
 
 exit:
 	# Ending the program, displaying an exit message
