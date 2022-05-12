@@ -51,6 +51,15 @@ player2Won:	.asciiz " so...\nPlayer 2 won! :)"
 playersTied:	.asciiz " so...\nYou both tied. :|"
 
 ending: 	.asciiz "\nEnding the game and exiting the program."
+scoreboard1:    .asciiz "\n=================*SCOREBOARD*==================\n"	
+scoreboardSpace:.asciiz "               "			     
+scoreboard2:   .asciiz"\n==============================================="
+    
+player1Score:   .asciiz "   Player 1: "
+player2Score:   .asciiz "   Player 2: "
+
+yourScore:      .asciiz "   My Score: "
+cpuScore:       .asciiz "   CPU Score: "
 
 .text
 main:
@@ -107,6 +116,13 @@ main:
 	syscall
 	beq $v0, 'f', PVPTrue
 	
+	
+	#Player  Score/ Player1
+	add $s2, $zero, $zero
+	#CPU Score/ Player 
+	add $s3, $zero, $zero
+
+
 	# PVP false
 		add $s7, $zero, $zero
 		j game
@@ -248,6 +264,7 @@ compare:
 		beq $s7, $zero, CPUTie
 		la $a0, playersTied
 		j printResult
+		
 
 		CPUTie:
 			la $a0, youTied	
@@ -255,6 +272,9 @@ compare:
 
 	player1Wins:
 		# Increase Player 1's score
+		addi $s2, $s2, 1
+		
+		
 		# Displays winning message
 		beq $s7, $zero, CPULoses
 		la $a0, player1Won
@@ -265,7 +285,11 @@ compare:
 			j printResult
 	
 	player1Loses:
+		
 		# Increase CPU's/Player 2's score
+		addi $s3, $s3, 1
+		
+		
 		# Displays losing message
 		beq $s7, $zero, CPUWins
 		la $a0, player2Won
@@ -279,6 +303,7 @@ compare:
 		li $v0, 4
 		syscall
 	
+	jal scoreboard
 	j endRound
 
 endRound:
@@ -295,6 +320,77 @@ endRound:
 	# if the value in register $v0 equals 'y' then the program will go to label game but if the value is 'n' then the program will end
 	beq $v0, 'y', game
 	j exit
+	
+	
+	
+scoreboard:
+	beq $s7, $zero, scoreboardCPU
+	
+	la $a0, scoreboard1
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	la $a0, player1Score
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	li  $v0, 1
+ 	move $a0, $s2
+ 	syscall
+ 	
+ 	la $a0, scoreboardSpace
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	la $a0, player2Score
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	li  $v0, 1
+ 	move $a0, $s3
+ 	syscall
+ 	
+ 	
+ 	la $a0, scoreboard2
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	jr $ra
+ 	
+ 	
+ 	scoreboardCPU:
+ 	
+ 	la $a0, scoreboard1
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	la $a0, yourScore
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	li  $v0, 1
+ 	move $a0, $s2
+ 	syscall
+ 	
+ 	
+ 	la $a0, scoreboardSpace
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	la $a0, cpuScore
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	li  $v0, 1
+ 	move $a0, $s3
+ 	syscall
+ 	
+ 	
+ 	la $a0, scoreboard2
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	jr $ra
 
 randomLetters:
 	li $a1, 6
