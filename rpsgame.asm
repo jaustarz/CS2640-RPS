@@ -27,8 +27,9 @@ enterChoice: 	.asciiz "\nPlease enter your choice."
 rock: 		.asciiz "\nRock (r)"
 paper: 		.asciiz "\nPaper (p)"
 scissor: 	.asciiz "\nScissors (s)"
-askUserChoice: 	.asciiz "\nPlayer 1: What is your choice?\n"
+askUserChoice: 	.asciiz "\nPlayer 1: What is your choice? "
 # These are used to hide the first players choice
+nL:		.asciiz "\n"
 one:		.asciiz "r\n"
 two:		.asciiz "p\nr\n"
 three:		.asciiz "s\nr\np\n"
@@ -154,6 +155,9 @@ game:
 
 	# Check if it is PVP or CPU
 	beq $s7, $zero, userInput
+	la $a0, nL
+	li $v0, 4
+	syscall
 	jal randomLetters
 
 	userInput:
