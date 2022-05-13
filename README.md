@@ -11,10 +11,8 @@ _to mark a task as done edit this file and put an x in the box_
 - [x] Assist the others
 - [x] ask user if they want to play endless mode after getting the three points it takes to win the game
 - [x] print "You chose USERS_CHOICE and the computer chose COMPUTERS_CHOICE so...", after playing the game I feel it is best that we spell it out for the player
-- [ ] make the dialog more intense
 - [ ] input validation
 - [ ] make quit an option each round
-- [ ] add round number somewhere, maybe in the score board
 
 **Ryan**
 - [x] Take in the users input
@@ -28,10 +26,12 @@ _to mark a task as done edit this file and put an x in the box_
 **Hailee**
 - [x] Tell the user their choices
 - [X] Compare the users choice with the computers choice and output the result
+- [ ] add round number somewhere, maybe in the score board
 
 **Jibriel**
 - [x] Tell the rules of the game
 - [x] Ask the user to play in the beginning
+- [ ] make the dialog more intense
 
 ## Time Line
 - April 25th to 30th - Rules and Interface
