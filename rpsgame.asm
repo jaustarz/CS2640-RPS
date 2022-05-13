@@ -53,7 +53,7 @@ playersTied:	.asciiz " so...\nYou both tied. :|"
 ending: 	.asciiz "\nEnding the game and exiting the program."
 scoreboard1:    .asciiz "\n=================*SCOREBOARD*==================\n"	
 scoreboardSpace:.asciiz "               "			     
-scoreboard2:   .asciiz"\n==============================================="
+scoreboard2:	.asciiz "\n==============================================="
     
 player1Score:   .asciiz "   Player 1: "
 player2Score:   .asciiz "   Player 2: "
