@@ -39,6 +39,7 @@ five:		.asciiz "r\np\ns\nr\np\n"
 askUser2Choice: .asciiz "\nPlayer 2: What is your choice? "
 
 playAgain:      .asciiz "\n\nDo you want to play again? (y or n) "
+endlessPlay:	.asciiz "\n\nDo you want to play endlessmode? (y or n) "
 
 userChoice:	.asciiz "\nPlayer 1 chose: "
 user2Choice:	.asciiz " and Player 2 chose: "
@@ -47,8 +48,8 @@ computerChoice: .asciiz " and the computer chose: "
 youWin: 	.asciiz " so...\nYou won! :)"
 youLose: 	.asciiz " so...\nYou lost. :("
 youTied:	.asciiz " so...\nYou tied with the CPU. :|"
-player1Won:	.asciiz " so...\nPlayer 1 won! :)"
-player2Won:	.asciiz " so...\nPlayer 2 won! :)"
+player1Won:	.asciiz " so...\nPlayer 1 won this round! :)"
+player2Won:	.asciiz " so...\nPlayer 2 won this round! :)"
 playersTied:	.asciiz " so...\nYou both tied. :|"
 
 ending: 	.asciiz "\nEnding the game and exiting the program."
@@ -61,6 +62,9 @@ player2Score:   .asciiz "   Player 2: "
 
 yourScore:      .asciiz "   My Score: "
 cpuScore:       .asciiz "   CPU Score: "
+
+p1WinsMsg:	.asciiz "Player 1 Wins!!!"
+p2WinsMsg:	.asciiz "Player 2 Wins!!!"
 
 .text
 main:
@@ -312,8 +316,33 @@ compare:
 
 endRound:
 	# Check score to see if game needs to end
-	# Ask to play again
+	beq $s2, 3, p1Wins
+	beq $s3, 3, p2Wins
+	j regularPlayAgain
+
+	p1Wins:
+		la $a0, p1WinsMsg
+		li $v0, 4
+		syscall
+
+		j endlessPlayAgain
+
+	p2Wins:
+		
+		la $a0, p2WinsMsg
+		li $v0, 4
+		syscall
+
+		j endlessPlayAgain
+
+endlessPlayAgain:
+	la $a0, endlessPlay
+	j printPlayAgain
+
+regularPlayAgain:
 	la $a0, playAgain
+
+printPlayAgain:
 	li $v0, 4
 	syscall
 	
