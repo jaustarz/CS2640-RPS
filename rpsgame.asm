@@ -45,17 +45,17 @@ userChoice:	.asciiz "\nPlayer 1 chose: "
 user2Choice:	.asciiz " and Player 2 chose: "
 computerChoice: .asciiz " and the computer chose: "
 
-youWin: 	.asciiz " so...\nYou won! :)"
-youLose: 	.asciiz " so...\nYou lost. :("
-youTied:	.asciiz " so...\nYou tied with the CPU. :|"
-player1Won:	.asciiz " so...\nPlayer 1 won this round! :)"
-player2Won:	.asciiz " so...\nPlayer 2 won this round! :)"
-playersTied:	.asciiz " so...\nYou both tied. :|"
+youWin: 	.asciiz " so...\n\nYou won! :)"
+youLose: 	.asciiz " so...\n\nYou lost. :("
+youTied:	.asciiz " so...\n\nYou tied with the CPU. :|"
+player1Won:	.asciiz " so...\n\nPlayer 1 won this round! :)"
+player2Won:	.asciiz " so...\n\nPlayer 2 won this round! :)"
+playersTied:	.asciiz " so...\n\nYou both tied. :|"
 
 ending: 	.asciiz "\nEnding the game and exiting the program."
-scoreboard1:    .asciiz "\n=================*SCOREBOARD*==================\n"	
+scoreboard1:    .asciiz "\n\n\n=================*SCOREBOARD*==================\n"	
 scoreboardSpace:.asciiz "               "			     
-scoreboard2:	.asciiz "\n==============================================="
+scoreboard2:	.asciiz "\n===============================================\n\n"
     
 player1Score:   .asciiz "   Player 1: "
 player2Score:   .asciiz "   Player 2: "
@@ -65,6 +65,7 @@ cpuScore:       .asciiz "   CPU Score: "
 
 p1WinsMsg:	.asciiz "Player 1 Wins!!!"
 p2WinsMsg:	.asciiz "Player 2 Wins!!!"
+cpuWinsMsg:	.asciiz "You Lost!!!"
 
 .text
 main:
@@ -121,12 +122,10 @@ main:
 	syscall
 	beq $v0, 'f', PVPTrue
 	
-	
 	#Player  Score/ Player1
 	add $s2, $zero, $zero
 	#CPU Score/ Player 
 	add $s3, $zero, $zero
-
 
 	# PVP false
 		add $s7, $zero, $zero
@@ -135,6 +134,13 @@ main:
 	PVPTrue:
 		addi $s7, $zero, 1		# PVP or CPU is in $s7
 	
+	#endless mode off
+	li $s6, 0
+	j game
+
+	endlessModeOn:
+		li $s6, 1
+
 game:
 	# Telling the user what the choices are, should they accept to play the game
 	la $a0, enterChoice
@@ -165,52 +171,51 @@ game:
 	jal randomLetters
 
 	userInput:
-	# User input choice
-	li $v0, 12
-	syscall
-	move $s0, $v0 				# user choice is in $s0
+		# User input choice
+		li $v0, 12
+		syscall
+		move $s0, $v0 				# user choice is in $s0
 
-	# Check if it is PVP or CPU
-	beq $s7, $zero, CPUChoice
-	jal randomLetters
-	
-	la $a0, askUser2Choice
-	li $v0, 4
-	syscall
+		# Check if it is PVP or CPU
+		beq $s7, $zero, CPUChoice
+		jal randomLetters
+		
+		la $a0, askUser2Choice
+		li $v0, 4
+		syscall
 
-	# User input choice
-	li $v0, 12
-	syscall
-	move $s1, $v0 				# second user choice is in $s1
+		# User input choice
+		li $v0, 12
+		syscall
+		move $s1, $v0 				# second user choice is in $s1
 
-	j choices
+		j choices
 
 	CPUChoice:
-	# Computer Choice
-	li $a1, 3				# this is to set the upper limit (in this case the limit is at 3)
-	li $v0, 42				# syscall to create the random number
-	syscall					# returns the random number at $a0
-	addi $s1, $a0, 1			# numerical computer choice is in $s1
+		# Computer Choice
+		li $a1, 3				# this is to set the upper limit (in this case the limit is at 3)
+		li $v0, 42				# syscall to create the random number
+		syscall					# returns the random number at $a0
+		addi $s1, $a0, 1			# numerical computer choice is in $s1
 
-	# Convert computer choice to character
-	beq $s1, 1, computerChoseRock
-	beq $s1, 2, computerChosePaper
-	beq $s1, 3, computerChoseScissors
+		# Convert computer choice to character
+		beq $s1, 1, computerChoseRock
+		beq $s1, 2, computerChosePaper
+		beq $s1, 3, computerChoseScissors
 
 	computerChoseRock:
-	li $s1, 'r'
-	j choices
+		li $s1, 'r'
+		j choices
 
 	computerChosePaper:
-	li $s1, 'p'
-	j choices
+		li $s1, 'p'
+		j choices
 
 	computerChoseScissors:
-	li $s1, 's'
-	j choices
+		li $s1, 's'
+		j choices
 
 choices:
-
 	# Displays users choice
 	la $a0, userChoice
 	li $v0, 4
@@ -232,16 +237,15 @@ choices:
 	j compare
 
 	CPUDisplay:
-	# Displays computer's choice 
-	la $a0, computerChoice	
-	li $v0, 4
-	syscall
-	la $a0, ($s1)
-	li $v0, 11
-	syscall
+		# Displays computer's choice 
+		la $a0, computerChoice	
+		li $v0, 4
+		syscall
+		la $a0, ($s1)
+		li $v0, 11
+		syscall
 	
 compare:
-
 	# Compare user and computer's/second player's choice
 	beq $s0, $s1, tie
 	beq $s0, 'r', choseRock
@@ -293,7 +297,6 @@ compare:
 			j printResult
 	
 	player1Loses:
-		
 		# Increase CPU's/Player 2's score
 		addi $s3, $s3, 1
 		
@@ -317,32 +320,29 @@ compare:
 endRound:
 	# Check score to see if game needs to end
 	beq $s2, 3, p1Wins
-	beq $s3, 3, p2Wins
-	j regularPlayAgain
+	beq $s3, 3, p1Loses
+	j game
 
 	p1Wins:
 		la $a0, p1WinsMsg
-		li $v0, 4
-		syscall
+		j printWins
 
-		j endlessPlayAgain
-
+	p1Loses:
+		beq $s7, 1, p2Wins
+		la $a0, cpuWinsMsg
+		j printWins
+	
 	p2Wins:
-		
 		la $a0, p2WinsMsg
+	
+	printWins:	
 		li $v0, 4
 		syscall
-
-		j endlessPlayAgain
 
 endlessPlayAgain:
+	beq $s6, 1, game
+	
 	la $a0, endlessPlay
-	j printPlayAgain
-
-regularPlayAgain:
-	la $a0, playAgain
-
-printPlayAgain:
 	li $v0, 4
 	syscall
 	
@@ -351,10 +351,8 @@ printPlayAgain:
 	syscall
 	
 	# if the value in register $v0 equals 'y' then the program will go to label game but if the value is 'n' then the program will end
-	beq $v0, 'y', game
+	beq $v0, 'y', endlessModeOn
 	j exit
-	
-	
 	
 scoreboard:
 	beq $s7, $zero, scoreboardCPU
@@ -390,9 +388,7 @@ scoreboard:
  	
  	jr $ra
  	
- 	
- 	scoreboardCPU:
- 	
+scoreboardCPU:
  	la $a0, scoreboard1
  	li $v0, 4
  	syscall
@@ -405,7 +401,6 @@ scoreboard:
  	move $a0, $s2
  	syscall
  	
- 	
  	la $a0, scoreboardSpace
  	li $v0, 4
  	syscall
@@ -417,8 +412,7 @@ scoreboard:
  	li  $v0, 1
  	move $a0, $s3
  	syscall
- 	
- 	
+
  	la $a0, scoreboard2
  	li $v0, 4
  	syscall
@@ -468,6 +462,3 @@ exit:
 
 	li $v0, 10
 	syscall
-
-	
-		
