@@ -53,7 +53,9 @@ player2Won:	.asciiz " so...\n\nPlayer 2 won this round! :)"
 playersTied:	.asciiz " so...\n\nYou both tied. :|"
 
 ending: 	.asciiz "\nEnding the game and exiting the program."
-scoreboard1:    .asciiz "\n\n\n=================*SCOREBOARD*==================\n"	
+round:	 	.asciiz "\n\n\nRound "
+colon: 		.asciiz ":"
+scoreboard1:    .asciiz "\n=================*SCOREBOARD*==================\n"		
 scoreboardSpace:.asciiz "               "			     
 scoreboard2:	.asciiz "\n===============================================\n\n"
     
@@ -112,6 +114,10 @@ main:
 	li $v0, 12
 	syscall
 	beq $v0, 'n', exit
+	
+		
+	# Set round counter to 0
+	add $s4, $zero, $zero			# Round counter is in $s4
 
 	# Ask the player if they are going to play pvp or cpu
 	la $a0, playerCount
@@ -313,7 +319,7 @@ compare:
 	printResult:
 		li $v0, 4
 		syscall
-	
+	jal roundCounter
 	jal scoreboard
 	j endRound
 
@@ -353,6 +359,24 @@ endlessPlayAgain:
 	# if the value in register $v0 equals 'y' then the program will go to label game but if the value is 'n' then the program will end
 	beq $v0, 'y', endlessModeOn
 	j exit
+	
+roundCounter:
+	# add 1 to round counter
+	addi $s4, $s4, 1
+	
+	la $a0, round
+ 	li $v0, 4
+ 	syscall
+ 	
+ 	li  $v0, 1
+ 	move $a0, $s4
+ 	syscall
+ 	
+ 	la $a0, colon
+ 	li $v0, 4
+ 	syscall
+ 
+ 	jr $ra
 	
 scoreboard:
 	beq $s7, $zero, scoreboardCPU
