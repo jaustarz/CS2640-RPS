@@ -396,6 +396,9 @@ compare:
 	j endRound
 
 endRound:
+	# Check if it is in endless mode
+	beq $s6, 1, game
+	
 	# Check score to see if game needs to end
 	beq $s2, 3, p1Wins
 	beq $s3, 3, p1Loses
@@ -418,8 +421,6 @@ endRound:
 		syscall
 
 endlessPlayAgain:
-	beq $s6, 1, game
-	
 	endlessValidation:
 	la $a0, endlessPlay
 	li $v0, 4
