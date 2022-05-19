@@ -71,7 +71,10 @@ p2WinsMsg:	.asciiz "Player 2 Wins!!!"
 cpuWinsMsg:	.asciiz "You Lost!!!"
 
 #User Validation
-errorMessage: .asciiz "\nPlease enter a valid choice!\n"
+errorMessage: 	.asciiz "\nPlease enter a valid choice!\n"
+
+#New Line
+newLine:	.asciiz"\n"
 
 .text
 main:
@@ -232,11 +235,19 @@ game:
 		li $v0, 4
 		syscall
 		
+		la $a0, newLine
+		li $v0, 4
+		syscall
+		
 		j userInput	#jump back so user can input a valid choice
 		
 		userInputTrue:
 		move $s0, $v0 				# user choice is in $s0
 
+		la $a0, newLine
+		li $v0, 4
+		syscall
+		
 		# Check if it is PVP or CPU
 		beq $s7, $zero, CPUChoice
 		jal randomLetters
