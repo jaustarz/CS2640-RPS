@@ -254,6 +254,11 @@ game:
 		beq $v0, 'p', user2InputTrue
 		beq $v0, 's', user2InputTrue
 		
+		bne $s6, 1, skipQuitPlayer2
+		beq $v0, 'q', exit
+		
+		skipQuitPlayer2:
+		
 		#Display error message if user did not enter a valid choice
 		la $a0, errorMessage
 		li $v0, 4
