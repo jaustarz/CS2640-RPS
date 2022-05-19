@@ -27,6 +27,7 @@ enterChoice: 	.asciiz "\nPlease enter your choice."
 rock: 		.asciiz "\nRock (r)"
 paper: 		.asciiz "\nPaper (p)"
 scissor: 	.asciiz "\nScissors (s)"
+quit:		.asciiz "\nQuit Game (q)"
 askUserChoice: 	.asciiz "\nPlayer 1: What is your choice? "
 # These are used to hide the first players choice
 nL:		.asciiz "\n"
@@ -70,7 +71,7 @@ p2WinsMsg:	.asciiz "Player 2 Wins!!!"
 cpuWinsMsg:	.asciiz "You Lost!!!"
 
 #User Validation
-errorMessage: .asciiz "\nPlease enter a valid choice!\n"
+errorMessage: 	.asciiz "\nPlease enter a valid choice!\n"
 
 .text
 main:
@@ -189,7 +190,13 @@ game:
 	la $a0, scissor
 	li $v0, 4
 	syscall
-
+	
+	bne $s6, 1, notEndless	#Display the quit message only when it is in endless mode
+	la $a0, quit
+	li $v0, 4
+	syscall
+	
+	notEndless:
 	la $a0, askUserChoice
 	li $v0, 4
 	syscall
@@ -211,21 +218,20 @@ game:
 		beq $v0, 'p', userInputTrue
 		beq $v0, 's', userInputTrue
 		
+		bne $s6, 1, skipQuit
+		beq $v0, 'q', exit
+		
+		skipQuit:
 		#Display error message if user did not enter a valid choice
 		la $a0, errorMessage
 		li $v0, 4
 		syscall
 		
-		#Displaying message again before jumping back to ask for user input
-		la $a0, askUserChoice
-		li $v0, 4
-		syscall
-		
-		j userInput	#jump back so user can input a valid choice
+		j notEndless	#jump back so user can input a valid choice
 		
 		userInputTrue:
 		move $s0, $v0 				# user choice is in $s0
-
+		
 		# Check if it is PVP or CPU
 		beq $s7, $zero, CPUChoice
 		jal randomLetters
@@ -242,6 +248,11 @@ game:
 		beq $v0, 'r', user2InputTrue
 		beq $v0, 'p', user2InputTrue
 		beq $v0, 's', user2InputTrue
+		
+		bne $s6, 1, skipQuitPlayer2
+		beq $v0, 'q', exit
+		
+		skipQuitPlayer2:
 		
 		#Display error message if user did not enter a valid choice
 		la $a0, errorMessage
