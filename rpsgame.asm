@@ -420,8 +420,7 @@ endRound:
 		li $v0, 4
 		syscall
 
-endlessPlayAgain:
-	endlessValidation:
+endlessValidation:
 	la $a0, endlessPlay
 	li $v0, 4
 	syscall
