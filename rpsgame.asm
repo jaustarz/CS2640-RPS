@@ -73,9 +73,6 @@ cpuWinsMsg:	.asciiz "You Lost!!!"
 #User Validation
 errorMessage: 	.asciiz "\nPlease enter a valid choice!\n"
 
-#New Line
-newLine:	.asciiz"\n"
-
 .text
 main:
 	#Displaying the introduction (what is this program and who made it)
@@ -230,23 +227,10 @@ game:
 		li $v0, 4
 		syscall
 		
-		#Displaying message again before jumping back to ask for user input
-		la $a0, askUserChoice
-		li $v0, 4
-		syscall
-		
-		la $a0, newLine
-		li $v0, 4
-		syscall
-		
-		j userInput	#jump back so user can input a valid choice
+		j notEndless	#jump back so user can input a valid choice
 		
 		userInputTrue:
 		move $s0, $v0 				# user choice is in $s0
-
-		la $a0, newLine
-		li $v0, 4
-		syscall
 		
 		# Check if it is PVP or CPU
 		beq $s7, $zero, CPUChoice
