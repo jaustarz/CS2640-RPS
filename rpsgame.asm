@@ -27,6 +27,7 @@ enterChoice: 	.asciiz "\nPlease enter your choice."
 rock: 		.asciiz "\nRock (r)"
 paper: 		.asciiz "\nPaper (p)"
 scissor: 	.asciiz "\nScissors (s)"
+quit:		.asciiz "\nQuit Game (q)"
 askUserChoice: 	.asciiz "\nPlayer 1: What is your choice? "
 # These are used to hide the first players choice
 nL:		.asciiz "\n"
@@ -189,7 +190,13 @@ game:
 	la $a0, scissor
 	li $v0, 4
 	syscall
-
+	
+	bne $s6, 1, notEndless	#Display the quit message only when it is in endless mode
+	la $a0, quit
+	li $v0, 4
+	syscall
+	
+	notEndless:
 	la $a0, askUserChoice
 	li $v0, 4
 	syscall
@@ -211,6 +218,10 @@ game:
 		beq $v0, 'p', userInputTrue
 		beq $v0, 's', userInputTrue
 		
+		bne $s6, 1, skipQuit
+		beq $v0, 'q', exit
+		
+		skipQuit:
 		#Display error message if user did not enter a valid choice
 		la $a0, errorMessage
 		li $v0, 4
