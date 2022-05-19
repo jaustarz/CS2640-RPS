@@ -234,6 +234,9 @@ game:
 		
 		# Check if it is PVP or CPU
 		beq $s7, $zero, CPUChoice
+		la $a0, nL
+		li $v0, 4
+		syscall
 		jal randomLetters
 		
 		user2Input:
