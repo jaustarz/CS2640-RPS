@@ -69,6 +69,9 @@ p1WinsMsg:	.asciiz "Player 1 Wins!!!"
 p2WinsMsg:	.asciiz "Player 2 Wins!!!"
 cpuWinsMsg:	.asciiz "You Lost!!!"
 
+#User Validation
+errorMessage: .asciiz "\nPlease enter a valid choice!\n"
+
 .text
 main:
 	#Displaying the introduction (what is this program and who made it)
@@ -106,19 +109,31 @@ main:
 	li $v0, 4
 	syscall
 	
+	playGameValidation:	#Validation
 	# Asking the player if they want to play the game or not
 	la $a0, wantToPlay
 	li $v0, 4
 	syscall
 	
+	#Getting user response
 	li $v0, 12
 	syscall
 	beq $v0, 'n', exit
+	beq $v0, 'y', playGameTrue
 	
+	#Display error message if user did not enter a valid choice
+	la $a0, errorMessage
+	li $v0, 4
+	syscall
+	
+	j playGameValidation #jump to the beginning if the user did not enter a valid answer
+	
+	playGameTrue:
 		
 	# Set round counter to 0
 	add $s4, $zero, $zero			# Round counter is in $s4
 
+	gamemodeValidation:
 	# Ask the player if they are going to play pvp or cpu
 	la $a0, playerCount
 	li $v0, 4
@@ -127,6 +142,16 @@ main:
 	li $v0, 12
 	syscall
 	beq $v0, 'f', PVPTrue
+	beq $v0, 'c', PVETrue
+	
+	#Display error message if user did not enter a valid choice
+	la $a0, errorMessage
+	li $v0, 4
+	syscall
+	
+	j gamemodeValidation
+	
+	PVETrue:
 	
 	#Player  Score/ Player1
 	add $s2, $zero, $zero
@@ -180,12 +205,32 @@ game:
 		# User input choice
 		li $v0, 12
 		syscall
+		
+		#Validation, if true skips the validation process.
+		beq $v0, 'r', userInputTrue
+		beq $v0, 'p', userInputTrue
+		beq $v0, 's', userInputTrue
+		
+		#Display error message if user did not enter a valid choice
+		la $a0, errorMessage
+		li $v0, 4
+		syscall
+		
+		#Displaying message again before jumping back to ask for user input
+		la $a0, askUserChoice
+		li $v0, 4
+		syscall
+		
+		j userInput	#jump back so user can input a valid choice
+		
+		userInputTrue:
 		move $s0, $v0 				# user choice is in $s0
 
 		# Check if it is PVP or CPU
 		beq $s7, $zero, CPUChoice
 		jal randomLetters
 		
+		user2Input:
 		la $a0, askUser2Choice
 		li $v0, 4
 		syscall
@@ -193,6 +238,19 @@ game:
 		# User input choice
 		li $v0, 12
 		syscall
+		
+		beq $v0, 'r', user2InputTrue
+		beq $v0, 'p', user2InputTrue
+		beq $v0, 's', user2InputTrue
+		
+		#Display error message if user did not enter a valid choice
+		la $a0, errorMessage
+		li $v0, 4
+		syscall
+		
+		j user2Input
+		
+		user2InputTrue:
 		move $s1, $v0 				# second user choice is in $s1
 
 		j choices
@@ -348,6 +406,7 @@ endRound:
 endlessPlayAgain:
 	beq $s6, 1, game
 	
+	endlessValidation:
 	la $a0, endlessPlay
 	li $v0, 4
 	syscall
@@ -358,7 +417,14 @@ endlessPlayAgain:
 	
 	# if the value in register $v0 equals 'y' then the program will go to label game but if the value is 'n' then the program will end
 	beq $v0, 'y', endlessModeOn
-	j exit
+	beq $v0, 'n', exit
+	
+	#Error message if they don't choose y or n
+	la $a0, errorMessage
+	li $v0, 4
+	syscall
+	
+	j endlessValidation
 	
 roundCounter:
 	# add 1 to round counter
